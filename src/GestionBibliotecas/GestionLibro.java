@@ -4,60 +4,42 @@ import GestionBibliotecas.Interfaces.ValidadorDatos;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class GestionLibro implements ValidadorDatos{
+public class GestionLibro extends Validadores{
 
-    Scanner stdin = new Scanner(System.in);
+    Scanner stdin;
     ArrayList<Libro> listaLibros = new ArrayList<>();
 
-    @Override
-    public boolean validarDatos(String entrada){
-        return !entrada.isEmpty();
+    public GestionLibro(){
+        this.stdin = new Scanner(System.in);
     }
 
-    public String SolicitarDatos(Scanner stdin, String mensaje){
+    public void Main(){
+
+    }
+
+    public String solicitarDatos(Scanner stdin, String mensaje, ValidadorDatos<String> validadorDatos){
 
         String entrada;
         do{
             System.out.print(mensaje + ": ");
             entrada = stdin.nextLine();
 
-            if(validarDatos(entrada)){
+            if(validadorDatos.validarDato(entrada)){
                 return entrada;
             }
-            System.out.println("Dato incorrecto, Intentalo de nuevo.");
+            validadorDatos.mensajeError();
         }
         while(true);
-    }
-
-    public void pedirInfoLibro(){
-
-        String ISBN;
-        String nombre;
-        String autor;
-        String anno;
-        short numCopias;
-        do{
-            System.out.print("Ingresa el ISBN del libro: ");
-            ISBN = stdin.nextLine();
-
-            System.out.print("Ingresa el nombre del libro: ");
-            nombre = stdin.nextLine();
-
-            System.out.print("Ingresa el autor del libro: ");
-            autor = stdin.nextLine();
-
-            System.out.print("Ingresa el anno de publicacion del libro: ");
-            anno = stdin.nextLine();
-
-            if(anno)
-
-            System.out.print("Ingresa la cantidad de copias disponibles: ");
-            numCopias = stdin.nextShort();
-        }
-        while(true);
-
 
         listaLibros.add(new Libro(ISBN, nombre, autor, anno,  numCopias, true));
     }
 
+    public void crearLibro(){
+
+        String ISBN = solicitarDatos(stdin, "Ingresa el ISBN del libro (13 digitos): ", new ValidarISBN());
+        String titulo = solicitarDatos(stdin, "Ingresa el titulo del libro: ", new ValidarDatoVacio());
+        String autor = solicitarDatos(stdin, "Ingresa el autor del libro: ", new ValidarDatoVacio());
+        short anno = Short.parseShort(solicitarDatos(stdin, "Ingresa el anno de publicacion del libro: ", new ValidarAnno()));
+        short numCopias = Short.parseShort(solicitarDatos(stdin, "Ingresa el numero de copias disponibles (1-1000): ", new ValidarNumCopias()));
+    }
 }
