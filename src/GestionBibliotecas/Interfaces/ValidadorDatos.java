@@ -1,10 +1,7 @@
 package GestionBibliotecas.Interfaces;
 
-public interface ValidadorDatos<T>{
+public interface ValidadorDatos{
 
-    boolean validarDato(T entrada);
+    boolean validarEntrada(String entrada);
     void mensajeError();
-    default boolean validarDatoVacio(String dato){
-        return !dato.trim().isEmpty();
-    }
 }

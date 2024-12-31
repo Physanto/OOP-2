@@ -4,12 +4,12 @@ import GestionBibliotecas.Interfaces.ValidadorDatos;
 
 public class Validadores {
 
-    public static class ValidarISBN implements ValidadorDatos<String>{
+    public static class ValidarISBN implements ValidadorDatos{
 
         @Override
-        public boolean validarDato(String dato){
+        public boolean validarEntrada(String dato){
             final int LONGITUD_MAX = 13;
-            return dato.length() <= LONGITUD_MAX;
+            return !(dato.trim().isEmpty()) && dato.length() == LONGITUD_MAX;
         }
 
         @Override
@@ -18,10 +18,10 @@ public class Validadores {
         }
     }
 
-    public static class ValidarDatoVacio implements ValidadorDatos<String>{
+    public static class ValidarDatoVacio implements ValidadorDatos{
 
         @Override
-        public boolean validarDato(String dato){
+        public boolean validarEntrada(String dato){
             return !dato.trim().isEmpty();
         }
 
@@ -30,12 +30,16 @@ public class Validadores {
             System.out.println("Ingresa un valor no vacio.");
         }
     }
-    public static class ValidarAnno implements ValidadorDatos<String>{
+    public static class ValidarAnno implements ValidadorDatos{
 
         @Override
-        public boolean validarDato(String dato){
-            short anno = Short.parseShort(dato);
-            return anno >= 1805 && anno<= 2024;
+        public boolean validarEntrada(String dato){
+
+            if(!dato.trim().isEmpty()){
+                short anno = Short.parseShort(dato);
+                return anno >= 1805 && anno<= 2024;
+            }
+            return false;
         }
 
         @Override
@@ -44,12 +48,16 @@ public class Validadores {
         }
     }
 
-    public static class ValidarNumCopias implements ValidadorDatos<String>{
+    public static class ValidarNumCopias implements ValidadorDatos{
 
         @Override
-        public boolean validarDato(String dato){
-            short numCopias = Short.parseShort(dato);
-            return numCopias >= 1 && numCopias <= 1000;
+        public boolean validarEntrada(String dato){
+
+            if(!dato.trim().isEmpty()){
+                short numCopias = Short.parseShort(dato);
+                return numCopias >= 1 && numCopias <= 1000;
+            }
+            return false;
         }
 
         @Override
