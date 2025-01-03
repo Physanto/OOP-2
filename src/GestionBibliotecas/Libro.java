@@ -72,7 +72,7 @@ public class Libro {
         this.anno = anno;
     }
 
-    public boolean isDisponible() {
+    public boolean getDisponible() {
         return disponible;
     }
 

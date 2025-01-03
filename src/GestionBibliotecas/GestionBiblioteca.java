@@ -7,7 +7,6 @@ import java.util.Scanner;
 
 public class GestionBiblioteca {
 
-    private Libro libro;
     private Scanner stdin;
     private Biblioteca biblioteca;
 
@@ -78,7 +77,8 @@ public class GestionBiblioteca {
                     break;
             }
         }
-        while (opcion != 8);
+        while (opcion != '8');
+        stdin.close();
     }
 
     public String solicitarDatos(Scanner stdin, Mensajes mensaje, ValidadorDatos validadorDatos){
@@ -105,21 +105,64 @@ public class GestionBiblioteca {
         short numCopias = Short.parseShort(solicitarDatos(stdin, new BuzonMensajes.MensajeNumCopias(), new Validadores.ValidarNumCopias()));
 
         biblioteca.almacenarLibro(new Libro(ISBN, titulo, autor, anno, numCopias, true));
+
         System.out.println("Libro creado exitosamente");
+        stdin.nextLine();
     }
 
     public void buscarLibro(){
         limpiadorPantalla();
 
-        System.out.println("----------Buscador de Libros----------\n");
         String nombre = solicitarDatos(stdin, new BuzonMensajes.MensajeTitulo(), new Validadores.ValidarDatoVacio());
         biblioteca.buscarLibro(nombre);
+        stdin.nextLine();
+    }
+
+    public void solicitarDatosBusqueda(Scanner stdin, String mensaje){
+
+        char option;
+        do{
+            System.out.println("----------Buscador de Libros----------\n\n" +
+                           "1._ Isbn\n" +
+                           "2._ Titulo\n" +
+                           "3._ Autor\n" +
+                           "4._ Anno");
+            System.out.println("Ingresa el metodo por el cual quieres hacer la busqueda (1-4): ");
+            option = stdin.next().charAt(0);
+        }
+        while(option < '1' || option > '4');
+        
+        switch(option){
+
+            case '1': 
+                String titulo = solicitarDatos(stdin, null, new Validadores.ValidarISBN());
+                biblioteca.buscarLibro(titulo, option);
+                break;
+
+            case '2':
+                solicitarDatos(stdin, null, new Validadores.ValidarDatoVacio());
+                break;
+
+            case '3':
+                solicitarDatos(stdin, null, new Validadores.ValidarDatoVacio());
+                break;
+
+            case '4':
+                solicitarDatos(stdin, null, new Validadores.ValidarAnno());
+                break;
+
+            default:
+
+                break;
+        }
     }
 
     public void librosDisponibles(){
         limpiadorPantalla();
+
         System.out.println("----------Libros disponibles en la biblioteca----------\n");
         biblioteca.librosDisponibles();
+        stdin.nextLine();
     }
 
     public static void limpiadorPantalla() {
