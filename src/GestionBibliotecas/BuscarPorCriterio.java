@@ -9,19 +9,19 @@ public class BuscarPorCriterio {
     public static class BuscarPorTitulo implements Buscador {
 
         @Override
-        public boolean buscarCriterio(ArrayList<Libro> listaLibros, String nombre){
+        public Libro buscarCriterio(ArrayList<Libro> listaLibros, String nombre){
 
             for(Libro libro : listaLibros){
 
                 if(libro.getTitulo().equalsIgnoreCase(nombre)){ 
-                    return true; 
+                    return libro; 
                 }
             }
         return false;
         }
 
         @Override
-        public void mostrarMensaje(){
+        public void mostrarMensajeError(){
             System.out.println("Libro no encontrado con ese titulo.");
         }
     }
@@ -41,9 +41,9 @@ public class BuscarPorCriterio {
         }
 
         @Override
-        public void mostrarMensaje(){
+        public void mostrarMensajeError(){
             System.out.println("Libro no encontrado con ese autor.");
-        }
+        }    
     }
 
     public static class BuscarPorISBN implements Buscador {
@@ -61,7 +61,7 @@ public class BuscarPorCriterio {
         }
 
         @Override
-        public void mostrarMensaje(){
+        public void mostrarMensajeError(){
             System.out.println("Libro no encontrado con ese ISBN.");
         }
     }
@@ -82,7 +82,7 @@ public class BuscarPorCriterio {
         }
 
         @Override
-        public void mostrarMensaje(){
+        public void mostrarMensajeError(){
             System.out.println("Libro no encontrado con ese anno.");
         }
     }

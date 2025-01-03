@@ -31,7 +31,7 @@ public class GestionBiblioteca {
             limpiadorPantalla();
             System.out.println("**************** MENU PRINCIPAL ***************");
             System.out.println("1._ Ver libros disponibles \n" +
-                    "2._ Consultar historial de prestamos \n" +
+                    "2._ Consultar historial de prestamos - Buscar Libro \n" +
                     "3._ Prestar libro \n" +
                     "4._ Devolver libro \n" +
                     "5._ Reservar libro \n" +
@@ -113,13 +113,37 @@ public class GestionBiblioteca {
     public void buscarLibro(){
         limpiadorPantalla();
 
-        String nombre = solicitarDatos(stdin, new BuzonMensajes.MensajeTitulo(), new Validadores.ValidarDatoVacio());
-        biblioteca.buscarLibro(nombre);
+        char option = solicitarDatosBusqueda(stdin);
+
+        switch(option){
+
+            case '1': 
+                String isbn = solicitarDatos(stdin, new BuzonMensajes.MensajeISBN(), new Validadores.ValidarISBN());
+                biblioteca.buscarLibro(isbn, new BuscarPorCriterio.BuscarPorISBN());
+                break;
+
+            case '2':
+                String titulo = solicitarDatos(stdin, new BuzonMensajes.MensajeTitulo(), new Validadores.ValidarDatoVacio());
+                biblioteca.buscarLibro(titulo, new BuscarPorCriterio.BuscarPorTitulo());
+                break;
+
+            case '3':
+                String autor = solicitarDatos(stdin, new BuzonMensajes.MensajeAutor(), new Validadores.ValidarDatoVacio());
+                biblioteca.buscarLibro(autor, new BuscarPorCriterio.BuscarPorAutor());
+                break;
+
+            case '4':
+                String anno = solicitarDatos(stdin, new BuzonMensajes.MensajeAnno(), new Validadores.ValidarISBN());
+                biblioteca.buscarLibro(anno, new BuscarPorCriterio.BuscarPorAnno());
+                break;
+
+            default:
+                break;
+        }
         stdin.nextLine();
     }
 
-    public void solicitarDatosBusqueda(Scanner stdin, String mensaje){
-
+    public char solicitarDatosBusqueda(Scanner stdin){
         char option;
         do{
             System.out.println("----------Buscador de Libros----------\n\n" +
@@ -131,30 +155,8 @@ public class GestionBiblioteca {
             option = stdin.next().charAt(0);
         }
         while(option < '1' || option > '4');
-        
-        switch(option){
 
-            case '1': 
-                String titulo = solicitarDatos(stdin, null, new Validadores.ValidarISBN());
-                biblioteca.buscarLibro(titulo, option);
-                break;
-
-            case '2':
-                solicitarDatos(stdin, null, new Validadores.ValidarDatoVacio());
-                break;
-
-            case '3':
-                solicitarDatos(stdin, null, new Validadores.ValidarDatoVacio());
-                break;
-
-            case '4':
-                solicitarDatos(stdin, null, new Validadores.ValidarAnno());
-                break;
-
-            default:
-
-                break;
-        }
+        return option; 
     }
 
     public void librosDisponibles(){

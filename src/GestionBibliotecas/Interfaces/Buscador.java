@@ -5,6 +5,6 @@ import GestionBibliotecas.Libro;
 
 public interface Buscador{
 
-    boolean buscarCriterio(ArrayList<Libro> lista, String dato);
-    void mostrarMensaje();
+    Libro buscarCriterio(ArrayList<Libro> lista, String dato);
+    void mostrarMensajeError();
 }

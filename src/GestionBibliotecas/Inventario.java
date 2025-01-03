@@ -5,7 +5,6 @@ import java.util.ArrayList;
 
 public class Inventario {
     private ArrayList<Libro> listaLibros;
-    Buscador buscadore;
 
     public Inventario(){
         this.listaLibros = new ArrayList<>();
@@ -15,14 +14,10 @@ public class Inventario {
         listaLibros.add(libro);
     }
 
-    public boolean buscarPorTitulo(Buscador buscador, String titulo){
-        return buscador.buscarCriterio(listaLibros, titulo);
-    }
+    public Libro buscarLibro(Buscador buscador, String dato){
+        if(buscador.buscarCriterio(listaLibros, dato)){
+    } 
 
-    public boolean buscarPorAutor(String autor){
-        return buscador.buscarCriterio(autor);
-    }
- 
     public void librosDisponibles(){
 
         if(listaLibros.isEmpty()){

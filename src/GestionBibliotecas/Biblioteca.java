@@ -2,6 +2,8 @@ package GestionBibliotecas;
 
 import java.util.Scanner;
 
+import GestionBibliotecas.Interfaces.Buscador;
+
 public class Biblioteca {
 
     Scanner stdin;
@@ -16,30 +18,8 @@ public class Biblioteca {
         inventario.almacenarLibros(libro);
     }
 
-    public void buscarLibro(String dato, char option){
-
-        switch(option){
-
-            case '1': 
-                inventario.buscarPorTitulo(new BuscarPorCriterio.BuscarPorTitulo(), dato);
-                break;
-
-            case '2':
-                break;
-
-            case '3':
-                break;
-
-            case '4':
-                break;
-
-            case '5':
-                break;
-
-            default:
-
-                break;
-        }
+    public void buscarLibro(String dato, Buscador buscador){
+        inventario.buscarLibro(buscador, dato);
     }
     
     public void librosDisponibles(){
