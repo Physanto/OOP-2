@@ -41,4 +41,12 @@ public class BuzonMensajes {
             System.out.print("Ingresa el numero de copias para este libro (1-1000): ");
         }
     }
+    
+    public static class MensajeDisponible implements Mensajes {
+
+        @Override
+        public void mensajeEntrada(){
+            System.out.print("Ingresa 1 para libro disponible o 2 para libro no disponible: ");
+        }
+    }
 }

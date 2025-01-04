@@ -65,4 +65,20 @@ public class Validadores {
             System.out.println("Ingresa un valor entre 1 y 1000");
         }
     }
+
+    public static class ValidarDisponible implements ValidadorDatos{
+
+        @Override
+        public boolean validarEntrada(String dato){
+
+            if(dato == "1" || dato == "0") return true;
+            
+            else return false;
+        }
+
+        @Override
+        public void mensajeError(){
+            System.out.println("Ingresa un valor entre 0 y 1");
+        }
+    } 
 }

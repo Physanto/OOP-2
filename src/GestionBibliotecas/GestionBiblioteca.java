@@ -1,9 +1,11 @@
 package GestionBibliotecas;
 
+import GestionBibliotecas.Interfaces.Buscador;
 import GestionBibliotecas.Interfaces.Mensajes;
 import GestionBibliotecas.Interfaces.ValidadorDatos;
 
 import java.util.Scanner;
+import java.util.ArrayList;
 
 public class GestionBiblioteca {
 
@@ -50,7 +52,7 @@ public class GestionBiblioteca {
                     break;
 
                 case '2':
-                    buscarLibro();
+                    buscarLibros();
                     break;
 
                 case '3':
@@ -98,63 +100,136 @@ public class GestionBiblioteca {
 
     public void crearLibro(){
 
-        String ISBN = solicitarDatos(stdin, new BuzonMensajes.MensajeISBN(), new Validadores.ValidarISBN());
-        String titulo = solicitarDatos(stdin, new BuzonMensajes.MensajeTitulo(), new Validadores.ValidarDatoVacio());
-        String autor = solicitarDatos(stdin, new BuzonMensajes.MensajeAutor(), new Validadores.ValidarDatoVacio());
-        short anno = Short.parseShort(solicitarDatos(stdin, new BuzonMensajes.MensajeAnno(), new Validadores.ValidarAnno()));
-        short numCopias = Short.parseShort(solicitarDatos(stdin, new BuzonMensajes.MensajeNumCopias(), new Validadores.ValidarNumCopias()));
+        //String isbn = solicitarDatos(stdin, new BuzonMensajes.MensajeISBN(), new Validadores.ValidarISBN());
+        //String titulo = solicitarDatos(stdin, new BuzonMensajes.MensajeTitulo(), new Validadores.ValidarDatoVacio());
+        //String autor = solicitarDatos(stdin, new BuzonMensajes.MensajeAutor(), new Validadores.ValidarDatoVacio());
+        //short anno = Short.parseShort(solicitarDatos(stdin, new BuzonMensajes.MensajeAnno(), new Validadores.ValidarAnno()));
+        //short numCopias = Short.parseShort(solicitarDatos(stdin, new BuzonMensajes.MensajeNumCopias(), new Validadores.ValidarNumCopias()));
 
-        biblioteca.almacenarLibro(new Libro(ISBN, titulo, autor, anno, numCopias, true));
+        Libro libro = new Libro("qwertyuiopasd", "Viaje al centro de la tierra", "Julio Verne", (short)1995, (short)100, true);
+        Libro libro2 = new Libro("mnbvcxzlkjhgf", "Un Abismo en el Cielo", "Vince Verne", (short)2001, (short)200, true);
+        Libro libro3 = new Libro("qwer123mn4h32", "Cronicas de una Muerte", "Gabriel Garcia", (short)1800, (short)210, true);
+        Libro libro4 = new Libro("qwer123mn4h32", "Cronicas", "Gabriel Garcia fadsfsdf", (short)2010, (short)500, true);
+        Libro libro5 = new Libro("lkmbnd712kvd4", "Un Abismo en el Cielo", "Dr Paul", (short)2010, (short)500, true);
+        Libro libro6 = new Libro("lkmbnd712kvd2", "Viaje al centro de la tierra", "Julio Verne", (short)2010, (short)500, true);
 
-        System.out.println("Libro creado exitosamente");
+        //biblioteca.almacenarLibro(new Libro(ISBN, titulo, autor, anno, numCopias, true));
+        //biblioteca.almacenarLibro(libro);
+        //biblioteca.almacenarLibro(libro2);
+        //biblioteca.almacenarLibro(libro3);
+        //biblioteca.almacenarLibro(libro4);
+        //biblioteca.almacenarLibro(libro5);
+        
+        if(verificarInformacion("qwertyuiopasd", "Viaje al centro de la tierra", "Julio Verne")){
+            biblioteca.almacenarLibro(libro);
+            System.out.println("Libro creado exitosamente");
+        }
+
+        if(verificarInformacion("mnbvcxzlkjhgf", "Un Abismo en el Cielo", "Vince Verne")){
+            biblioteca.almacenarLibro(libro2);
+            System.out.println("Libro creado exitosamente");
+        }
+
+        if(verificarInformacion("qwer123mn4h32", "Cronicas de una Muerte", "Gabriel Garcia")){
+            biblioteca.almacenarLibro(libro3);
+            System.out.println("Libro creado exitosamente");
+        }
+
+        if(verificarInformacion("qwer123mn4h32", "Cronicas", "Gabriel Garcia fadsfsdf")){
+            biblioteca.almacenarLibro(libro4);
+            System.out.println("Libro creado exitosamente");
+        }
+
+        if(verificarInformacion("lkmbnd712kvd4", "Un Abismo en el Cielo", "Dr Paul")){
+            biblioteca.almacenarLibro(libro5);
+            System.out.println("Libro creado exitosamente");
+        }
+
+        if(verificarInformacion("lkmbnd712kvd2", "Viaje al centro de la tierra", "Julio Verne")){
+            biblioteca.almacenarLibro(libro6);
+            System.out.println("Libro creado exitosamente");
+        }
+        System.out.println("Este libro ya existe");
         stdin.nextLine();
     }
 
-    public void buscarLibro(){
+    public boolean verificarInformacion(String isbn, String titulo, String autor){
+
+        ArrayList<Libro> listaLibros = biblioteca.getListaLibros();
+
+        ValidadorDatos validadorDatos = new Validadores.ValidarISBN();
+
+        return validadorDatos.ValidarIsbnTituloAutorRepetido(listaLibros, isbn, titulo, autor); 
+    }
+
+    public void buscarLibros(){
         limpiadorPantalla();
 
+        Buscador buscador = null;
+        String dato = "1";
         char option = solicitarDatosBusqueda(stdin);
 
         switch(option){
 
             case '1': 
-                String isbn = solicitarDatos(stdin, new BuzonMensajes.MensajeISBN(), new Validadores.ValidarISBN());
-                biblioteca.buscarLibro(isbn, new BuscarPorCriterio.BuscarPorISBN());
+                dato = solicitarDatos(stdin, new BuzonMensajes.MensajeISBN(), new Validadores.ValidarISBN());
+                buscador = new BuscarPorCriterio.BuscarPorISBN(); 
                 break;
 
             case '2':
-                String titulo = solicitarDatos(stdin, new BuzonMensajes.MensajeTitulo(), new Validadores.ValidarDatoVacio());
-                biblioteca.buscarLibro(titulo, new BuscarPorCriterio.BuscarPorTitulo());
+                dato = solicitarDatos(stdin, new BuzonMensajes.MensajeTitulo(), new Validadores.ValidarDatoVacio());                  
+                buscador = new BuscarPorCriterio.BuscarPorTitulo();
                 break;
 
             case '3':
-                String autor = solicitarDatos(stdin, new BuzonMensajes.MensajeAutor(), new Validadores.ValidarDatoVacio());
-                biblioteca.buscarLibro(autor, new BuscarPorCriterio.BuscarPorAutor());
+                dato = solicitarDatos(stdin, new BuzonMensajes.MensajeAutor(), new Validadores.ValidarDatoVacio());
+                buscador = new BuscarPorCriterio.BuscarPorAutor();
                 break;
 
             case '4':
-                String anno = solicitarDatos(stdin, new BuzonMensajes.MensajeAnno(), new Validadores.ValidarISBN());
-                biblioteca.buscarLibro(anno, new BuscarPorCriterio.BuscarPorAnno());
+                dato = solicitarDatos(stdin, new BuzonMensajes.MensajeAnno(), new Validadores.ValidarAnno());
+                buscador = new BuscarPorCriterio.BuscarPorAnno();
                 break;
 
-            default:
-                break;
+            case '5':
+                dato = solicitarDatos(stdin, new BuzonMensajes.MensajeDisponible(), new Validadores.ValidarDisponible());
+                buscador = new BuscarPorCriterio.BuscarDisponible();
         }
+
+        ArrayList<Libro> lista = biblioteca.buscarLibro(dato, buscador);
+
+        libroEncontrado(lista, buscador);
         stdin.nextLine();
     }
 
+    public void libroEncontrado(ArrayList<Libro> lista, Buscador buscador){
+
+        if(!lista.isEmpty()) {
+            for(Libro libro : lista){
+                System.out.println(libro.toString());
+            }
+        }
+        else {
+            buscador.mostrarMensajeError();
+        }
+    }
+
     public char solicitarDatosBusqueda(Scanner stdin){
+
         char option;
         do{
+            limpiadorPantalla();
             System.out.println("----------Buscador de Libros----------\n\n" +
                            "1._ Isbn\n" +
                            "2._ Titulo\n" +
                            "3._ Autor\n" +
-                           "4._ Anno");
-            System.out.println("Ingresa el metodo por el cual quieres hacer la busqueda (1-4): ");
+                           "4._ Anno\n" +
+                           "5._ disponibilidad\n");
+            System.out.print("Ingresa el metodo por el cual quieres hacer la busqueda (1-5): ");
             option = stdin.next().charAt(0);
+            stdin.nextLine();
         }
-        while(option < '1' || option > '4');
+        while(option < '1' || option > '5'); 
 
         return option; 
     }
@@ -163,8 +238,17 @@ public class GestionBiblioteca {
         limpiadorPantalla();
 
         System.out.println("----------Libros disponibles en la biblioteca----------\n");
-        biblioteca.librosDisponibles();
+        String dato = "1";
+
+        ArrayList<Libro> listaLibros = biblioteca.librosDisponibles(new BuscarPorCriterio.BuscarDisponible(), dato);
+
+        for(Libro libro : listaLibros){
+            System.out.println(libro.toString());
+        }
         stdin.nextLine();
+    }
+
+    public void solicitarDatoDisponible(){ 
     }
 
     public static void limpiadorPantalla() {

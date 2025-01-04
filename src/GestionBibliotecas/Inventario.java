@@ -1,6 +1,7 @@
 package GestionBibliotecas;
 
 import GestionBibliotecas.Interfaces.Buscador;
+
 import java.util.ArrayList;
 
 public class Inventario {
@@ -10,23 +11,22 @@ public class Inventario {
         this.listaLibros = new ArrayList<>();
     }
 
+    public ArrayList<Libro> getListaLibros(){
+        return listaLibros;
+    }
+
     public void almacenarLibros(Libro libro){
         listaLibros.add(libro);
     }
 
-    public Libro buscarLibro(Buscador buscador, String dato){
-        if(buscador.buscarCriterio(listaLibros, dato)){
+    public ArrayList<Libro> buscarLibro(Buscador buscador, String dato){
+        ArrayList<Libro> lista = buscador.buscarCriterio(listaLibros, dato);
+        return lista;
     } 
 
-    public void librosDisponibles(){
-
-        if(listaLibros.isEmpty()){
-            System.out.println("No hay actualmente libros agregados");
-            return;
-        }
-
-        for(Libro libro : listaLibros){
-            System.out.println(libro.toString());
-        }
+    public ArrayList<Libro> librosDisponibles(Buscador buscador, String dato){
+        ArrayList<Libro> lista = buscador.buscarCriterio(listaLibros, dato);
+        return lista;
     }
 }
+

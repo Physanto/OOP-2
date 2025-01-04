@@ -9,15 +9,17 @@ public class BuscarPorCriterio {
     public static class BuscarPorTitulo implements Buscador {
 
         @Override
-        public Libro buscarCriterio(ArrayList<Libro> listaLibros, String nombre){
+        public ArrayList<Libro> buscarCriterio(ArrayList<Libro> listaLibros, String nombre){
+
+            ArrayList<Libro> lista = new ArrayList<>();
 
             for(Libro libro : listaLibros){
 
                 if(libro.getTitulo().equalsIgnoreCase(nombre)){ 
-                    return libro; 
+                    lista.add(libro);
                 }
             }
-        return false;
+            return lista;
         }
 
         @Override
@@ -29,15 +31,17 @@ public class BuscarPorCriterio {
     public static class BuscarPorAutor implements Buscador {
 
         @Override
-        public boolean buscarCriterio(ArrayList<Libro> listaLibros, String autor){
+        public ArrayList<Libro> buscarCriterio(ArrayList<Libro> listaLibros, String autor){
+
+            ArrayList<Libro> lista = new ArrayList<>();
 
             for(Libro libro : listaLibros){
 
                 if(libro.getAutor().equalsIgnoreCase(autor)){ 
-                    return true; 
+                    lista.add(libro); 
                 }
             }
-        return false;
+        return lista;
         }
 
         @Override
@@ -49,15 +53,16 @@ public class BuscarPorCriterio {
     public static class BuscarPorISBN implements Buscador {
 
         @Override
-        public boolean buscarCriterio(ArrayList<Libro> listaLibros, String ISBN){
+        public ArrayList<Libro> buscarCriterio(ArrayList<Libro> listaLibros, String ISBN){
 
+            ArrayList<Libro> lista = new ArrayList<>();
             for(Libro libro : listaLibros){
 
                 if(libro.getISBN().equalsIgnoreCase(ISBN)){ 
-                    return true; 
+                    lista.add(libro); 
                 }
             }
-        return false;
+        return lista;
         }
 
         @Override
@@ -69,21 +74,47 @@ public class BuscarPorCriterio {
     public static class BuscarPorAnno implements Buscador {
 
         @Override
-        public boolean buscarCriterio(ArrayList<Libro> listaLibros, String dato){
+        public ArrayList<Libro> buscarCriterio(ArrayList<Libro> listaLibros, String dato){
+
+            ArrayList<Libro> lista = new ArrayList<>();
             short anno = Short.parseShort(dato);
 
             for(Libro libro : listaLibros){
 
                 if(libro.getAnno() == anno){ 
-                    return true; 
+                    lista.add(libro); 
                 }
             }
-        return false;
+        return lista;
         }
 
         @Override
         public void mostrarMensajeError(){
             System.out.println("Libro no encontrado con ese anno.");
+        }
+    }
+
+    public static class BuscarDisponible implements Buscador {
+
+        @Override
+        public ArrayList<Libro> buscarCriterio(ArrayList<Libro> listaLibros, String generico){
+
+            ArrayList<Libro> lista = new ArrayList<>();
+            generico = "1";
+            boolean disponible = (generico == "1") ? true : false;
+
+            for(Libro libro : listaLibros){
+
+            if(libro.getDisponible() == disponible){
+                    lista.add(libro);
+                }
+            }
+            return lista;
+        }
+
+        @Override
+        public void mostrarMensajeError(){
+            System.out.println("Libro no encontrado por disponibilidad");
         }
     }
 }

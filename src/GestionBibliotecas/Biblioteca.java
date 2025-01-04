@@ -1,7 +1,7 @@
 package GestionBibliotecas;
 
 import java.util.Scanner;
-
+import java.util.ArrayList;
 import GestionBibliotecas.Interfaces.Buscador;
 
 public class Biblioteca {
@@ -14,15 +14,21 @@ public class Biblioteca {
         this.inventario = new Inventario();
     }
 
+    public ArrayList<Libro> getListaLibros(){
+        return inventario.getListaLibros();
+    }
+
     public void almacenarLibro(Libro libro){
         inventario.almacenarLibros(libro);
     }
 
-    public void buscarLibro(String dato, Buscador buscador){
-        inventario.buscarLibro(buscador, dato);
+    public ArrayList<Libro> buscarLibro(String dato, Buscador buscador){ 
+        ArrayList<Libro> lista = inventario.buscarLibro(buscador, dato);
+        return lista;
     }
     
-    public void librosDisponibles(){
-        inventario.librosDisponibles();
+    public ArrayList<Libro> librosDisponibles(Buscador buscador, String dato){
+        ArrayList<Libro> lista = inventario.librosDisponibles(buscador, dato);
+        return lista;
     }
 }
