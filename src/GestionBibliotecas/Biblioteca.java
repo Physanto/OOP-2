@@ -22,7 +22,7 @@ public class Biblioteca {
         inventario.almacenarLibros(libro);
     }
 
-    public ArrayList<Libro> buscarLibro(String dato, Buscador buscador){ 
+    public ArrayList<Libro> buscarLibro(Buscador buscador, String dato){ 
         ArrayList<Libro> lista = inventario.buscarLibro(buscador, dato);
         return lista;
     }

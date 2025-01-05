@@ -9,13 +9,13 @@ public class BuscarPorCriterio {
     public static class BuscarPorTitulo implements Buscador {
 
         @Override
-        public ArrayList<Libro> buscarCriterio(ArrayList<Libro> listaLibros, String nombre){
+        public ArrayList<Libro> buscarCriterio(ArrayList<Libro> listaLibros, String titulo){
 
             ArrayList<Libro> lista = new ArrayList<>();
 
             for(Libro libro : listaLibros){
 
-                if(libro.getTitulo().equalsIgnoreCase(nombre)){ 
+                if(libro.getTitulo().equalsIgnoreCase(titulo)){ 
                     lista.add(libro);
                 }
             }
@@ -100,12 +100,10 @@ public class BuscarPorCriterio {
         public ArrayList<Libro> buscarCriterio(ArrayList<Libro> listaLibros, String generico){
 
             ArrayList<Libro> lista = new ArrayList<>();
-            generico = "1";
-            boolean disponible = (generico == "1") ? true : false;
+            boolean disponible = ("1".equals(generico)) ? true : false;
 
             for(Libro libro : listaLibros){
-
-            if(libro.getDisponible() == disponible){
+                if(libro.getDisponible() == disponible){
                     lista.add(libro);
                 }
             }

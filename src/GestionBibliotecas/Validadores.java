@@ -70,10 +70,7 @@ public class Validadores {
 
         @Override
         public boolean validarEntrada(String dato){
-
-            if(dato == "1" || dato == "0") return true;
-            
-            else return false;
+            return "1".equals(dato) || "0".equals(dato);
         }
 
         @Override
