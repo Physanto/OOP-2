@@ -1,4 +1,4 @@
-package GestionBibliotecas.Interfaces;
+package GestionBibliotecas.Utils;
 
 public interface Mensajes {
     void mensajeEntrada();

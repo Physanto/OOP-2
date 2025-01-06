@@ -1,6 +1,6 @@
 package GestionBibliotecas;
 
-import GestionBibliotecas.Interfaces.Mensajes;
+import GestionBibliotecas.Utils.Mensajes;
 
 public class BuzonMensajes {
 
@@ -47,6 +47,30 @@ public class BuzonMensajes {
         @Override
         public void mensajeEntrada(){
             System.out.print("Ingresa 1 - disponible, 0 - no disponible: ");
+        }
+    }
+
+    public static class MensajeId implements Mensajes {
+
+        @Override
+        public void mensajeEntrada(){
+            System.out.print("Ingresa el Id para el usuario: ");
+        }
+    }
+
+    public static class MensajeNombre implements Mensajes {
+
+        @Override
+        public void mensajeEntrada(){
+            System.out.print("Ingresa el nombre para el usuario: ");
+        }
+    }
+
+    public static class MensajeEdad implements Mensajes {
+
+        @Override
+        public void mensajeEntrada(){
+            System.out.print("Ingresa la edad para el usuario: ");
         }
     }
 }

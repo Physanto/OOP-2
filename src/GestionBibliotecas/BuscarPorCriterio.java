@@ -2,7 +2,7 @@ package GestionBibliotecas;
 
 import java.util.ArrayList;
 
-import GestionBibliotecas.Interfaces.Buscador;
+import GestionBibliotecas.Utils.Buscador;
 
 public class BuscarPorCriterio {
 

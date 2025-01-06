@@ -1,6 +1,6 @@
 package GestionBibliotecas;
 
-import GestionBibliotecas.Interfaces.Buscador;
+import GestionBibliotecas.Utils.Buscador;
 
 import java.util.ArrayList;
 
@@ -27,6 +27,10 @@ public class Inventario {
     public ArrayList<Libro> librosDisponibles(Buscador buscador, String dato){
         ArrayList<Libro> lista = buscador.buscarCriterio(listaLibros, dato);
         return lista;
+    }
+
+    public void libroPrestado(Libro libro){
+        libro.setDisponible(false);
     }
 }
 

@@ -1,6 +1,6 @@
 package GestionBibliotecas;
 
-import GestionBibliotecas.Interfaces.ValidadorDatos;
+import GestionBibliotecas.Utils.ValidadorDatos;
 
 public class Validadores {
 
@@ -78,4 +78,20 @@ public class Validadores {
             System.out.println("Ingresa un valor entre 0 y 1");
         }
     } 
+
+    public static class ValidarEdad implements ValidadorDatos {
+
+        @Override
+        public boolean validarEntrada(String dato){
+
+            byte edad = Byte.parseByte(dato);
+
+            return edad >= 6 || edad <= 90; 
+        }
+
+        @Override
+        public void mensajeError(){
+            System.out.println("Ingresa una edad valida");
+        }
+    }
 }

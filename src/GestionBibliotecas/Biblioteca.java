@@ -2,7 +2,7 @@ package GestionBibliotecas;
 
 import java.util.Scanner;
 import java.util.ArrayList;
-import GestionBibliotecas.Interfaces.Buscador;
+import GestionBibliotecas.Utils.Buscador;
 
 public class Biblioteca {
 
@@ -30,5 +30,9 @@ public class Biblioteca {
     public ArrayList<Libro> librosDisponibles(Buscador buscador, String dato){
         ArrayList<Libro> lista = inventario.librosDisponibles(buscador, dato);
         return lista;
+    }
+
+    public void libroPrestado(Libro libro){
+        inventario.libroPrestado(libro);
     }
 }

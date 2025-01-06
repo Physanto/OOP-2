@@ -1,4 +1,4 @@
-package GestionBibliotecas.Interfaces;
+package GestionBibliotecas.Utils;
 
 import java.util.ArrayList;
 import GestionBibliotecas.Libro;
