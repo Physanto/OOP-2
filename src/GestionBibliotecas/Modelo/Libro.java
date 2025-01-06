@@ -1,4 +1,4 @@
-package GestionBibliotecas;
+package GestionBibliotecas.Modelo;
 
 public class Libro {
 

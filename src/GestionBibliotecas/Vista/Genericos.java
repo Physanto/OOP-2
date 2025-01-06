@@ -1,4 +1,4 @@
-package GestionBibliotecas;
+package GestionBibliotecas.Vista;
 
 public class Genericos {
     public static void limpiadorPantalla() {

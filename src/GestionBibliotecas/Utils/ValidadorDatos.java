@@ -1,8 +1,8 @@
 package GestionBibliotecas.Utils;
 
 import java.util.ArrayList;
-import GestionBibliotecas.Libro;
-import GestionBibliotecas.Usuario;
+import GestionBibliotecas.Modelo.Libro;
+import GestionBibliotecas.Modelo.Usuario;
 
 public interface ValidadorDatos {
 

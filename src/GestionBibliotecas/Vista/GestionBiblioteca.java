@@ -1,5 +1,6 @@
-package GestionBibliotecas;
+package GestionBibliotecas.Vista;
 
+import GestionBibliotecas.Modelo.*;
 import GestionBibliotecas.Utils.Buscador;
 import GestionBibliotecas.Utils.Mensajes;
 import GestionBibliotecas.Utils.ValidadorDatos;
@@ -192,7 +193,7 @@ public class GestionBiblioteca {
 
             case '1': 
                 dato = solicitarDatos(stdin, new BuzonMensajes.MensajeISBN(), new Validadores.ValidarISBN());
-                buscador = new BuscarPorCriterio.BuscarPorISBN(); 
+                buscador = new BuscarPorCriterio.BuscarPorISBN();
                 break;
 
             case '2':

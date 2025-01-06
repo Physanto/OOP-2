@@ -1,7 +1,7 @@
 package GestionBibliotecas.Utils;
 
 import java.util.ArrayList;
-import GestionBibliotecas.Libro;
+import GestionBibliotecas.Modelo.Libro;
 
 public interface Buscador{
 

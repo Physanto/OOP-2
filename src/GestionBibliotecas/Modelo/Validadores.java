@@ -1,4 +1,4 @@
-package GestionBibliotecas;
+package GestionBibliotecas.Modelo;
 
 import GestionBibliotecas.Utils.ValidadorDatos;
 

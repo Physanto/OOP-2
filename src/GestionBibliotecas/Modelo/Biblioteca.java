@@ -1,4 +1,4 @@
-package GestionBibliotecas;
+package GestionBibliotecas.Modelo;
 
 import java.util.Scanner;
 import java.util.ArrayList;
