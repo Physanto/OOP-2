@@ -45,7 +45,6 @@ public class Biblioteca {
                            "*********************************************** \n\n");
         System.out.print("Por favor ingresar una opcion, (1-11): ");
     }
-
     /***
      * Esta funcion muestra el menu principal del Sistema de Gestion de GestionBiblioteca
      *
@@ -71,7 +70,7 @@ public class Biblioteca {
                     break;
 
                 case 3:
-                prestarLibro();
+                    prestarLibro();
                     break;
 
                 case 4:
@@ -266,6 +265,7 @@ public class Biblioteca {
             stdin.nextLine();
             return;
         }
+
         for(Libro libro : listaLibros){
             System.out.println(libro);
         }
@@ -290,35 +290,26 @@ public class Biblioteca {
     public void prestarLibro(){
 
         Genericos.limpiadorPantalla();
+
         librosDisponibles();
         if(gestionBiblioteca.getListaLibros().isEmpty()){ 
             return;
         }
         
-        Buscador buscador = new BuscarPorCriterio.BuscarPorISBN();
         System.out.println("--------------Ingresar Informacion para prestar el libro---------------\n");
+
         String isbn = solicitarDatos(new BuzonMensajes.MensajeISBN(), new ValidarDatos.ValidarISBN());
-        Libro libro = gestionBiblioteca.libroAPrestar(isbn);
-        if(libro != null){
-            System.out.println("Libro prestado correctamente " + libro);
+        String id = solicitarDatos(new BuzonMensajes.MensajeId(), new ValidarDatos.ValidarDatoVacio());
+        String libroPrestado = gestionBiblioteca.libroAPrestar(isbn);
+
+        if(!libroPrestado.isEmpty()){
+
+            System.out.println("Libro prestado correctamente" + libroPrestado);
             stdin.nextLine();
             return;
         }
         System.out.println("Este libro no se pudo prestar, verifica el isbn");
         stdin.nextLine();
-        // ArrayList<Libro> lista = gestionBiblioteca.buscarLibro(buscador, isbn);
-        // Libro libroPrestado = lista.getFirst();
-        //
-        // if(libroPrestado.getDisponible() == false){
-        //     System.out.println("Este libro ya esta prestado");
-        //     stdin.nextLine();
-        //     return;
-        // }
-        //
-        // gestionUsuario.prestarLibro(libroPrestado);
-        // gestionBiblioteca.libroPrestado(libroPrestado);
-        // System.out.println("Este es el libro que prestaste: " + libroPrestado);
-        // stdin.nextLine();
     }
 
     public void crearUsuario(){
@@ -351,7 +342,7 @@ public class Biblioteca {
             stdin.nextLine();
             return;
         }
-        
+
         for(Usuario usuario : listaUsuarios){
             System.out.println(usuario);
         }

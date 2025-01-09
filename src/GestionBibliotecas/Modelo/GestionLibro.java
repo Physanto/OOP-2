@@ -1,13 +1,11 @@
 package GestionBibliotecas.Modelo;
 
 import GestionBibliotecas.Utils.Buscador;
-import GestionBibliotecas.Vista.Biblioteca;
-
 import java.util.ArrayList;
 
 public class GestionLibro {
 
-    private ArrayList<Libro> listaLibros;
+    private ArrayList<Libro> listaLibros; 
 
     public GestionLibro(){
         this.listaLibros = new ArrayList<>();
@@ -22,28 +20,32 @@ public class GestionLibro {
     }
 
     public ArrayList<Libro> buscarLibro(Buscador buscador, String dato){
-        ArrayList<Libro> lista = buscador.buscarCriterio(listaLibros, dato);
-        return lista;
+        return buscador.buscarCriterio(listaLibros, dato);
     } 
 
     public ArrayList<Libro> librosDisponibles(Buscador buscador, String dato){
-        ArrayList<Libro> lista = buscador.buscarCriterio(listaLibros, dato);
-        return lista;
+        return buscador.buscarCriterio(listaLibros, dato);
     }
 
-    public void libroPrestado(Libro libro){
-        libro.setDisponible(false);
-    } 
+    public void modificarEstadoLibro(String isbn){
+                                                //en la lista sino solo en el libro en si, esto quiere decir que verdaderamente yo cuando
+                                                //creo una lista de libros lo que verdaderamente estoy haciendo es tener una copia de este.
+        for(Libro libro : listaLibros){
+            if(libro.getISBN().equals(isbn)){
+                libro.setDisponible(false);
+            }
+        }
+    }                                           
 
-    public Libro libroAPrestar(String isbn){
+    public String libroAPrestar(String isbn){
 
         for(Libro libro : listaLibros){
             if(libro.getISBN().equals(isbn)){
-                libroPrestado(libro);
-                return libro;
+                modificarEstadoLibro(isbn);
+                return libro.toString();
             }
         }
-        return null;
+        return "";
     }
 }
 

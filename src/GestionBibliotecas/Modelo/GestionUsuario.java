@@ -7,15 +7,13 @@ import java.util.ArrayList;
 public class GestionUsuario{
 
     private ArrayList<Usuario> listaUsuarios;
-    private ArrayList<Libro> listaLibrosUsuario;
 
     public GestionUsuario(){
         this.listaUsuarios = new ArrayList<>();
-        this.listaLibrosUsuario = new ArrayList<>();
     }
 
     public void prestarLibro(Libro libro){
-        listaLibrosUsuario.add(libro);
+        //listaLibrosUsuario.add(libro);
     }
 
     public void devolverLibro(String nombreLibro){

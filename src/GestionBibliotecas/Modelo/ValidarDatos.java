@@ -85,8 +85,7 @@ public class ValidarDatos {
         public boolean validarEntrada(String dato){
 
             byte edad = Byte.parseByte(dato);
-
-            return edad >= 6 || edad <= 90; 
+return edad >= 6 || edad <= 90; 
         }
 
         @Override
