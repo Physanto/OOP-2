@@ -4,35 +4,40 @@ import java.util.Scanner;
 import java.util.ArrayList;
 import GestionBibliotecas.Utils.Buscador;
 
-public class Biblioteca {
+public class GestionBiblioteca {
 
     Scanner stdin;
-    private Inventario inventario;
+    private GestionLibro gestionLibro;
 
-    public Biblioteca(){
+    public GestionBiblioteca(){
         this.stdin = new Scanner(System.in);
-        this.inventario = new Inventario();
+        this.gestionLibro = new GestionLibro();
     }
 
     public ArrayList<Libro> getListaLibros(){
-        return inventario.getListaLibros();
+        return gestionLibro.getListaLibros();
     }
 
     public void almacenarLibro(Libro libro){
-        inventario.almacenarLibros(libro);
+        gestionLibro.almacenarLibros(libro);
     }
 
     public ArrayList<Libro> buscarLibro(Buscador buscador, String dato){ 
-        ArrayList<Libro> lista = inventario.buscarLibro(buscador, dato);
+        ArrayList<Libro> lista = gestionLibro.buscarLibro(buscador, dato);
         return lista;
     }
     
     public ArrayList<Libro> librosDisponibles(Buscador buscador, String dato){
-        ArrayList<Libro> lista = inventario.librosDisponibles(buscador, dato);
+        ArrayList<Libro> lista = gestionLibro.librosDisponibles(buscador, dato);
         return lista;
     }
 
     public void libroPrestado(Libro libro){
-        inventario.libroPrestado(libro);
+        gestionLibro.libroPrestado(libro);
     }
+
+    public Libro libroAPrestar(String isbn){
+        return gestionLibro.libroAPrestar(isbn);
+    }
+
 }

@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import GestionBibliotecas.Modelo.Libro;
 import GestionBibliotecas.Modelo.Usuario;
 
-public interface ValidadorDatos {
+public interface Validador {
 
     boolean validarEntrada(String entrada);
     void mensajeError();

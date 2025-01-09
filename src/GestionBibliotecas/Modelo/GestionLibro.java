@@ -1,13 +1,15 @@
 package GestionBibliotecas.Modelo;
 
 import GestionBibliotecas.Utils.Buscador;
+import GestionBibliotecas.Vista.Biblioteca;
 
 import java.util.ArrayList;
 
-public class Inventario {
+public class GestionLibro {
+
     private ArrayList<Libro> listaLibros;
 
-    public Inventario(){
+    public GestionLibro(){
         this.listaLibros = new ArrayList<>();
     }
 
@@ -31,6 +33,17 @@ public class Inventario {
 
     public void libroPrestado(Libro libro){
         libro.setDisponible(false);
+    } 
+
+    public Libro libroAPrestar(String isbn){
+
+        for(Libro libro : listaLibros){
+            if(libro.getISBN().equals(isbn)){
+                libroPrestado(libro);
+                return libro;
+            }
+        }
+        return null;
     }
 }
 

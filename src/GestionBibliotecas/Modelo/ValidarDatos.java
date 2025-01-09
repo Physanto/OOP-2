@@ -1,10 +1,10 @@
 package GestionBibliotecas.Modelo;
 
-import GestionBibliotecas.Utils.ValidadorDatos;
+import GestionBibliotecas.Utils.Validador;
 
-public class Validadores {
+public class ValidarDatos {
 
-    public static class ValidarISBN implements ValidadorDatos{
+    public static class ValidarISBN implements Validador {
 
         @Override
         public boolean validarEntrada(String dato){
@@ -18,7 +18,7 @@ public class Validadores {
         }
     }
 
-    public static class ValidarDatoVacio implements ValidadorDatos{
+    public static class ValidarDatoVacio implements Validador {
 
         @Override
         public boolean validarEntrada(String dato){
@@ -30,7 +30,7 @@ public class Validadores {
             System.out.println("Ingresa un valor no vacio.");
         }
     }
-    public static class ValidarAnno implements ValidadorDatos{
+    public static class ValidarAnno implements Validador {
 
         @Override
         public boolean validarEntrada(String dato){
@@ -48,7 +48,7 @@ public class Validadores {
         }
     }
 
-    public static class ValidarNumCopias implements ValidadorDatos{
+    public static class ValidarNumCopias implements Validador {
 
         @Override
         public boolean validarEntrada(String dato){
@@ -66,7 +66,7 @@ public class Validadores {
         }
     }
 
-    public static class ValidarDisponible implements ValidadorDatos{
+    public static class ValidarDisponible implements Validador {
 
         @Override
         public boolean validarEntrada(String dato){
@@ -79,7 +79,7 @@ public class Validadores {
         }
     } 
 
-    public static class ValidarEdad implements ValidadorDatos {
+    public static class ValidarEdad implements Validador {
 
         @Override
         public boolean validarEntrada(String dato){
