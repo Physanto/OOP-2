@@ -9,7 +9,9 @@ public class Usuario {
     private byte edad;
     private ArrayList<Libro> listaLibros;
 
-    public Usuario(){};
+    public Usuario(){
+        this.listaLibros = new ArrayList<>();
+    }
 
     public Usuario(String ID, String nombre, byte edad){
         this.ID = ID;
@@ -64,5 +66,9 @@ public class Usuario {
 
     public void setListaLibros(ArrayList<Libro> lista){
         this.listaLibros = lista;
+    }
+
+    public void ingresarLibroLista(Libro libro){
+        listaLibros.add(libro);
     }
 }

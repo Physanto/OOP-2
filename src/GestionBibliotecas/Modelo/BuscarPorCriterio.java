@@ -3,7 +3,6 @@ package GestionBibliotecas.Modelo;
 import java.util.ArrayList;
 
 import GestionBibliotecas.Utils.Buscador;
-import GestionBibliotecas.Modelo.Usuario;
 
 public class BuscarPorCriterio {
 

@@ -57,12 +57,13 @@ public class Biblioteca {
             
             mostrarMenu();
             opcion = stdin.nextByte();
-            stdin.nextLine();
+            stdin.nextLine(); 
+            Genericos.limpiadorPantalla();
 
             switch (opcion){
 
                 case 1: 
-                    librosDisponibles(); 
+                    mostrarLibrosDisponibles(); 
                     break;
 
                 case 2:
@@ -74,6 +75,7 @@ public class Biblioteca {
                     break;
 
                 case 4:
+                    devolverLibro();
                     break;
 
                 case 5:
@@ -203,8 +205,6 @@ public class Biblioteca {
 
     public void buscarLibros(){
         
-        Genericos.limpiadorPantalla();
-
         ArrayList<Buscador<Libro, String>> listaBuscadores = ListaBuscadores.getListaBuscadores(); //estudia mas...
         ArrayList<Validador> listaValidadores = ListaValidadores.getListaValidadores(); //estas 3 listas las puedo encapsular en un contenedor para que sea mas legible.
         ArrayList<Mensajes> listaMensajes = ListaMensajes.getListaMensajes(); //creando una clase que instancia los objetos y una clase que actue como contenedora.
@@ -252,14 +252,19 @@ public class Biblioteca {
         return option; 
     }
 
-    public void librosDisponibles(){
+    public ArrayList<Libro> librosDisponibles(){
 
-        Genericos.limpiadorPantalla();
+        String dato = "1";
+        ArrayList<Libro> listaLibros = gestionBiblioteca.librosDisponibles(new BuscarPorCriterio.BuscarDisponible(), dato);
+
+        return listaLibros;
+    }
+
+    public void mostrarLibrosDisponibles(){
 
         System.out.println("----------Libros disponibles en la GestionBiblioteca----------\n");
-        String dato = "1";
 
-        ArrayList<Libro> listaLibros = gestionBiblioteca.librosDisponibles(new BuscarPorCriterio.BuscarDisponible(), dato);
+        ArrayList<Libro> listaLibros = librosDisponibles();
 
         if(listaLibros.isEmpty()){
             System.out.println("No hay libros en existencia");
@@ -290,44 +295,34 @@ public class Biblioteca {
 
     public void prestarLibro(){
 
-        Genericos.limpiadorPantalla();
+        System.out.println("--------------------Prestador de libros--------------------\n\n\n");
 
-        System.out.println("--------------Prestador de libros---------------\n");
-
-        librosDisponibles();
-        if(gestionBiblioteca.getListaLibros().isEmpty()){ 
-            return;
-        }
-        
-        String isbn = solicitarDatos(new BuzonMensajes.MensajeISBN(), new ValidarDatos.ValidarISBN());
-        String id = solicitarDatos(new BuzonMensajes.MensajeId(), new ValidarDatos.ValidarDatoVacio());
-
-        String libroPrestado = gestionBiblioteca.libroAPrestar(isbn);
-
-        if(libroPrestado.isEmpty()){
-            System.out.println("Este libro no se pudo prestar, verifica el isbn");
+        if(librosDisponibles().isEmpty()){
+            System.out.println("No hay libros agregados actualmente");
             stdin.nextLine();
             return;
         }
 
-        System.out.println("Libro prestado correctamente    " + libroPrestado);
-        gestionUsuario.listaRelacionUsuarioLibro(isbn, id);
-        stdin.nextLine();
-    }
-
-    public void pedirDatosPrestarLibro(){
-
-        System.out.println("Ingresa la informacion perteneciente para prestar un libro a un usuario\n");
+        mostrarLibrosDisponibles();
 
         String isbn = solicitarDatos(new BuzonMensajes.MensajeISBN(), new ValidarDatos.ValidarISBN());
         String id = solicitarDatos(new BuzonMensajes.MensajeId(), new ValidarDatos.ValidarDatoVacio());
-        String libroPrestado = gestionBiblioteca.libroAPrestar(isbn);
+        ArrayList<Libro> listaLibro = gestionBiblioteca.buscarLibro(new BuscarPorCriterio.BuscarPorISBN(), isbn);
+        ArrayList<Usuario> listaUsuario = gestionUsuario.buscarUsuario(new BuscarPorCriterio.BuscarPorId(), id);
 
+        if(listaLibro.isEmpty() || listaUsuario.isEmpty()){
+            System.out.println("El libro o usuario ingresado no se encuentra en la base de datos");
+            stdin.nextLine();
+            return;
+        }
+
+        gestionBiblioteca.modificarEstadoLibro(listaLibro.getFirst(), false);
+        gestionUsuario.almacenarLibroPrestado(listaLibro.getFirst(), listaUsuario.getFirst());
+        System.out.println("Libro prestado correctamente");
+        stdin.nextLine();
     }
 
     public void crearUsuario(){
-
-        Genericos.limpiadorPantalla();
 
         String id = solicitarDatos(new BuzonMensajes.MensajeId(), new ValidarDatos.ValidarDatoVacio());
         String nombre = solicitarDatos(new BuzonMensajes.MensajeNombre(), new ValidarDatos.ValidarDatoVacio());
@@ -344,7 +339,6 @@ public class Biblioteca {
 
     public void listarTodosUsuarios(){
 
-        Genericos.limpiadorPantalla();
         System.out.println("----------Usuarios registrados en la biblioteca----------\n");
 
         ArrayList<Usuario> listaUsuarios = gestionUsuario.listarTodosUsuarios();
@@ -359,5 +353,44 @@ public class Biblioteca {
             System.out.println(usuario);
         }
         stdin.nextLine();
+    }
+
+    public ArrayList<Usuario> obtenerListaDatos(ArrayList<Usuario> lista){
+        return lista;
+    }
+
+    public void devolverLibro(){
+
+        System.out.println("------------------------Menu para devolver libros----------------------");
+
+        String id = solicitarDatos(new BuzonMensajes.MensajeId(), new ValidarDatos.ValidarDatoVacio()); 
+        ArrayList<Usuario> listaUsuario = gestionUsuario.buscarUsuario(new BuscarPorCriterio.BuscarPorId(), id);
+
+        if(listaUsuario.isEmpty()){
+            System.out.println("No existe el usuario ingresado");
+            stdin.nextLine();
+            return;
+        }
+
+        Usuario usuario = listaUsuario.getFirst(); 
+        System.out.println("Libros prestados por el usuario " + usuario.getNombre() + "\n");
+
+        ArrayList<Libro> lista = gestionUsuario.mostrarListaLibrosPorUsuario(usuario);
+
+        for(Libro libro : lista){
+            System.out.println(libro);
+        }
+
+        String isbn = solicitarDatos(new BuzonMensajes.MensajeISBN(), new ValidarDatos.ValidarISBN());
+        ArrayList<Libro> listaLibro = gestionBiblioteca.buscarLibro(new BuscarPorCriterio.BuscarPorISBN(), isbn);
+        Libro libro = listaLibro.getFirst();
+
+        if(listaLibro.isEmpty()){
+            System.out.println("No existe este libro en la lista");
+            stdin.nextLine();
+            return;
+        } 
+        gestionBiblioteca.modificarEstadoLibro(libro, true);
+        gestionUsuario.devolverLibro(usuario, libro);
     }
 }

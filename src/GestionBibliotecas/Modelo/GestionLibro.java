@@ -6,6 +6,7 @@ import java.util.ArrayList;
 public class GestionLibro {
 
     private ArrayList<Libro> listaLibros; 
+    private Libro libro;
 
     public GestionLibro(){
         this.listaLibros = new ArrayList<>();
@@ -27,25 +28,10 @@ public class GestionLibro {
         return buscador.buscarCriterio(listaLibros, dato);
     }
 
-    public void modificarEstadoLibro(String isbn){
+    public void modificarEstadoLibro(Libro libro, boolean estado){
                                                 //en la lista sino solo en el libro en si, esto quiere decir que verdaderamente yo cuando
                                                 //creo una lista de libros lo que verdaderamente estoy haciendo es tener una copia de este.
-        for(Libro libro : listaLibros){
-            if(libro.getISBN().equals(isbn)){
-                libro.setDisponible(false);
-            }
-        }
-    }                                           
-
-    public String libroAPrestar(String isbn){
-
-        for(Libro libro : listaLibros){
-            if(libro.getISBN().equals(isbn)){
-                modificarEstadoLibro(isbn);
-                return libro.toString();
-            }
-        }
-        return "";
-    }
+        libro.setDisponible(estado); 
+    } 
 }
 

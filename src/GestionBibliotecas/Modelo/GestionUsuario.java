@@ -8,37 +8,31 @@ import java.util.ArrayList;
 public class GestionUsuario{
 
     private ArrayList<Usuario> listaUsuarios;
-    private GestionLibro gestionLibro;
 
     public GestionUsuario(){
         this.listaUsuarios = new ArrayList<>();
-        this.gestionLibro = new GestionLibro();
     }
 
-    public void listaRelacionUsuarioLibro(String isbn, String id){
-        ArrayList<Libro> libroPrestado = gestionLibro.buscarLibro(new BuscarPorCriterio.BuscarPorISBN(), isbn);
-        ArrayList<Usuario> usuarioRegistrado = buscarUsuario(new BuscarPorCriterio.BuscarPorId(), id);
-
-        if(usuarioRegistrado.isEmpty()){
-            System.out.println("Esta vacia la lista");
-            return;
-        }
-
-        usuarioRegistrado.getFirst().setListaLibros(libroPrestado);
-
-        for(Usuario usuario : listarTodosUsuarios()){
-            System.out.println(usuario + "   " + usuario.getListaLibros().getFirst());
-        }
+    public void almacenarLibroPrestado(Libro libro, Usuario usuario){
+        usuario.ingresarLibroLista(libro);
     }
 
     public ArrayList<Usuario> buscarUsuario(Buscador<Usuario, String> buscador, String dato){
         return buscador.buscarCriterio(listaUsuarios, dato);
     }
 
-
-    public void devolverLibro(String nombreLibro){
-        
+    public void devolverLibro(Usuario usuario, Libro libro){
+        eliminarLibro(usuario, libro);
     }  
+
+    public void eliminarLibro(Usuario usuario, Libro libro){
+        ArrayList<Libro> lista = usuario.getListaLibros();
+        lista.remove(libro);
+    }
+
+    public ArrayList<Libro> mostrarListaLibrosPorUsuario(Usuario usuario){
+        return usuario.getListaLibros();
+    }
 
     public boolean validarInformacion(String id){
 
@@ -48,9 +42,9 @@ public class GestionUsuario{
     }
 
     public boolean crearUsuario(String id, String nombre, String edad){
-
+        ArrayList<Libro> lista = new ArrayList<>();
         if(validarInformacion(id)){
-            listaUsuarios.add(new Usuario(id, nombre, Byte.parseByte(edad)));
+            listaUsuarios.add(new Usuario(id, nombre, Byte.parseByte(edad), lista));
             return true;
         }
         return false;

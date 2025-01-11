@@ -26,12 +26,8 @@ public class GestionBiblioteca {
         return gestionLibro.librosDisponibles(buscador, dato);
     }
 
-    public void modificarEstadoLibro(String isbn){
-        gestionLibro.modificarEstadoLibro(isbn);
-    }
-
-    public String libroAPrestar(String isbn){
-        return gestionLibro.libroAPrestar(isbn);
+    public void modificarEstadoLibro(Libro libro, boolean estado){
+        gestionLibro.modificarEstadoLibro(libro, estado);
     }
 
 }
