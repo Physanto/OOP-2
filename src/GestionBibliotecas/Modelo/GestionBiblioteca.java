@@ -18,11 +18,11 @@ public class GestionBiblioteca {
         gestionLibro.almacenarLibros(libro);
     }
 
-    public ArrayList<Libro> buscarLibro(Buscador buscador, String dato){ 
+    public ArrayList<Libro> buscarLibro(Buscador<Libro, String> buscador, String dato){ 
         return gestionLibro.buscarLibro(buscador, dato);
     }
     
-    public ArrayList<Libro> librosDisponibles(Buscador buscador, String dato){
+    public ArrayList<Libro> librosDisponibles(Buscador<Libro, String> buscador, String dato){
         return gestionLibro.librosDisponibles(buscador, dato);
     }
 

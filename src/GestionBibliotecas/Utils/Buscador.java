@@ -1,10 +1,9 @@
 package GestionBibliotecas.Utils;
 
 import java.util.ArrayList;
-import GestionBibliotecas.Modelo.Libro;
 
-public interface Buscador{
+public interface Buscador<T, E>{
 
-    ArrayList<Libro> buscarCriterio(ArrayList<Libro> lista, String dato);
+    ArrayList<T> buscarCriterio(ArrayList<T> lista, E dato);
     void mostrarMensajeError();
 }

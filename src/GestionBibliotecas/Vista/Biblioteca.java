@@ -205,7 +205,7 @@ public class Biblioteca {
         
         Genericos.limpiadorPantalla();
 
-        ArrayList<Buscador> listaBuscadores = ListaBuscadores.getListaBuscadores(); //estudia mas...
+        ArrayList<Buscador<Libro, String>> listaBuscadores = ListaBuscadores.getListaBuscadores(); //estudia mas...
         ArrayList<Validador> listaValidadores = ListaValidadores.getListaValidadores(); //estas 3 listas las puedo encapsular en un contenedor para que sea mas legible.
         ArrayList<Mensajes> listaMensajes = ListaMensajes.getListaMensajes(); //creando una clase que instancia los objetos y una clase que actue como contenedora.
 
@@ -213,13 +213,13 @@ public class Biblioteca {
         int indice = option - '1';
 
         String dato = solicitarDatos(listaMensajes.get(indice), listaValidadores.get(indice));
-        Buscador buscador = listaBuscadores.get(indice);
+        Buscador<Libro, String> buscador = listaBuscadores.get(indice);
 
         ArrayList<Libro> listaLibrosEncontrados = gestionBiblioteca.buscarLibro(buscador, dato);
         mostrarLibroEncontrado(listaLibrosEncontrados, buscador);
     }
 
-    public void mostrarLibroEncontrado(ArrayList<Libro> lista, Buscador buscador){
+    public void mostrarLibroEncontrado(ArrayList<Libro> lista, Buscador<Libro, String> buscador){
 
         if(!lista.isEmpty()) {
             for(Libro libro : lista){
@@ -253,6 +253,7 @@ public class Biblioteca {
     }
 
     public void librosDisponibles(){
+
         Genericos.limpiadorPantalla();
 
         System.out.println("----------Libros disponibles en la GestionBiblioteca----------\n");
@@ -291,25 +292,37 @@ public class Biblioteca {
 
         Genericos.limpiadorPantalla();
 
+        System.out.println("--------------Prestador de libros---------------\n");
+
         librosDisponibles();
         if(gestionBiblioteca.getListaLibros().isEmpty()){ 
             return;
         }
         
-        System.out.println("--------------Ingresar Informacion para prestar el libro---------------\n");
+        String isbn = solicitarDatos(new BuzonMensajes.MensajeISBN(), new ValidarDatos.ValidarISBN());
+        String id = solicitarDatos(new BuzonMensajes.MensajeId(), new ValidarDatos.ValidarDatoVacio());
+
+        String libroPrestado = gestionBiblioteca.libroAPrestar(isbn);
+
+        if(libroPrestado.isEmpty()){
+            System.out.println("Este libro no se pudo prestar, verifica el isbn");
+            stdin.nextLine();
+            return;
+        }
+
+        System.out.println("Libro prestado correctamente    " + libroPrestado);
+        gestionUsuario.listaRelacionUsuarioLibro(isbn, id);
+        stdin.nextLine();
+    }
+
+    public void pedirDatosPrestarLibro(){
+
+        System.out.println("Ingresa la informacion perteneciente para prestar un libro a un usuario\n");
 
         String isbn = solicitarDatos(new BuzonMensajes.MensajeISBN(), new ValidarDatos.ValidarISBN());
         String id = solicitarDatos(new BuzonMensajes.MensajeId(), new ValidarDatos.ValidarDatoVacio());
         String libroPrestado = gestionBiblioteca.libroAPrestar(isbn);
 
-        if(!libroPrestado.isEmpty()){
-
-            System.out.println("Libro prestado correctamente" + libroPrestado);
-            stdin.nextLine();
-            return;
-        }
-        System.out.println("Este libro no se pudo prestar, verifica el isbn");
-        stdin.nextLine();
     }
 
     public void crearUsuario(){
@@ -320,8 +333,7 @@ public class Biblioteca {
         String nombre = solicitarDatos(new BuzonMensajes.MensajeNombre(), new ValidarDatos.ValidarDatoVacio());
         String edad = solicitarDatos(new BuzonMensajes.MensajeEdad(), new ValidarDatos.ValidarEdad());
 
-        if(gestionUsuario.validarInformacion(id)){
-            gestionUsuario.crearUsuario(id, nombre, edad);
+        if(gestionUsuario.crearUsuario(id, nombre, edad)){
             System.out.println("Usuario Creado satisfactoriamente");
         }
         else{

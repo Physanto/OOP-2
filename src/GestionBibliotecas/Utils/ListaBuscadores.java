@@ -3,12 +3,13 @@ package GestionBibliotecas.Utils;
 import java.util.ArrayList;
 
 import GestionBibliotecas.Modelo.BuscarPorCriterio;
+import GestionBibliotecas.Modelo.Libro;
 
 public class ListaBuscadores {
 
-    public static ArrayList<Buscador> getListaBuscadores(){
+    public static ArrayList<Buscador<Libro, String>> getListaBuscadores(){
 
-        ArrayList<Buscador> listaBuscadores = new ArrayList<>();
+        ArrayList<Buscador<Libro, String>> listaBuscadores = new ArrayList<>();
 
         listaBuscadores.add(new BuscarPorCriterio.BuscarPorISBN());
         listaBuscadores.add(new BuscarPorCriterio.BuscarPorTitulo());

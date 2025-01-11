@@ -19,11 +19,11 @@ public class GestionLibro {
         listaLibros.add(libro);
     }
 
-    public ArrayList<Libro> buscarLibro(Buscador buscador, String dato){
+    public ArrayList<Libro> buscarLibro(Buscador<Libro, String> buscador, String dato){
         return buscador.buscarCriterio(listaLibros, dato);
     } 
 
-    public ArrayList<Libro> librosDisponibles(Buscador buscador, String dato){
+    public ArrayList<Libro> librosDisponibles(Buscador<Libro, String> buscador, String dato){
         return buscador.buscarCriterio(listaLibros, dato);
     }
 

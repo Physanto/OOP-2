@@ -3,10 +3,11 @@ package GestionBibliotecas.Modelo;
 import java.util.ArrayList;
 
 import GestionBibliotecas.Utils.Buscador;
+import GestionBibliotecas.Modelo.Usuario;
 
 public class BuscarPorCriterio {
 
-    public static class BuscarPorTitulo implements Buscador {
+    public static class BuscarPorTitulo implements Buscador<Libro, String> {
 
         @Override
         public ArrayList<Libro> buscarCriterio(ArrayList<Libro> listaLibros, String titulo){
@@ -28,7 +29,7 @@ public class BuscarPorCriterio {
         }
     }
 
-    public static class BuscarPorAutor implements Buscador {
+    public static class BuscarPorAutor implements Buscador<Libro, String> {
 
         @Override
         public ArrayList<Libro> buscarCriterio(ArrayList<Libro> listaLibros, String autor){
@@ -50,7 +51,7 @@ public class BuscarPorCriterio {
         }    
     }
 
-    public static class BuscarPorISBN implements Buscador {
+    public static class BuscarPorISBN implements Buscador<Libro, String> {
 
         @Override
         public ArrayList<Libro> buscarCriterio(ArrayList<Libro> listaLibros, String ISBN){
@@ -71,7 +72,7 @@ public class BuscarPorCriterio {
         }
     }
 
-    public static class BuscarPorAnno implements Buscador {
+    public static class BuscarPorAnno implements Buscador<Libro, String> {
 
         @Override
         public ArrayList<Libro> buscarCriterio(ArrayList<Libro> listaLibros, String dato){
@@ -94,7 +95,7 @@ public class BuscarPorCriterio {
         }
     }
 
-    public static class BuscarDisponible implements Buscador {
+    public static class BuscarDisponible implements Buscador<Libro, String> {
 
         @Override
         public ArrayList<Libro> buscarCriterio(ArrayList<Libro> listaLibros, String generico){
@@ -113,6 +114,27 @@ public class BuscarPorCriterio {
         @Override
         public void mostrarMensajeError(){
             System.out.println("Libro no encontrado por disponibilidad");
+        }
+    }
+
+    public static class BuscarPorId implements Buscador<Usuario, String> {
+
+        @Override
+        public ArrayList<Usuario> buscarCriterio(ArrayList<Usuario> listaUsuarios, String dato){
+
+            ArrayList<Usuario> lista = new ArrayList<>();
+
+            for(Usuario usuario : listaUsuarios){
+                if(usuario.getID().equalsIgnoreCase(dato)){
+                    lista.add(usuario);
+                }
+            }
+            return lista;
+        }
+
+        @Override
+        public void mostrarMensajeError(){
+            System.out.println("Usuario no encontrado por Id");
         }
     }
 }
