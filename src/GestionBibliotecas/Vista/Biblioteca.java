@@ -63,11 +63,12 @@ public class Biblioteca {
             switch (opcion){
 
                 case 1: 
-                    mostrarLibrosDisponibles(); 
+                    mostrarLibrosPorDisponibilidad("1"); 
                     break;
 
                 case 2:
-                    buscarLibros();
+                    listarHistorialPrestamos();
+                    //buscarLibros();
                     break;
 
                 case 3:
@@ -79,6 +80,7 @@ public class Biblioteca {
                     break;
 
                 case 5:
+                    reservarLibro();
                     break;
 
                 case 6:
@@ -252,19 +254,25 @@ public class Biblioteca {
         return option; 
     }
 
-    public ArrayList<Libro> librosDisponibles(){
+    public ArrayList<Libro> librosPorDisponibilidad(String disponibilidad){
 
-        String dato = "1";
-        ArrayList<Libro> listaLibros = gestionBiblioteca.librosDisponibles(new BuscarPorCriterio.BuscarDisponible(), dato);
+        ArrayList<Libro> listaLibros = gestionBiblioteca.librosDisponibles(new BuscarPorCriterio.BuscarDisponible(), disponibilidad);
 
         return listaLibros;
     }
 
-    public void mostrarLibrosDisponibles(){
+    public void mostrarLibrosPorDisponibilidad(String disponibilidad){
 
-        System.out.println("----------Libros disponibles en la GestionBiblioteca----------\n");
+        final String DISPONIBLE = "1";
 
-        ArrayList<Libro> listaLibros = librosDisponibles();
+        if(disponibilidad.equals(DISPONIBLE)){
+            System.out.println("----------Libros disponibles en la Biblioteca----------\n");
+        }
+        else{
+            System.out.println("----------Libros no disponibles en la Biblioteca----------\n");
+        }
+
+        ArrayList<Libro> listaLibros = librosPorDisponibilidad(disponibilidad);
 
         if(listaLibros.isEmpty()){
             System.out.println("No hay libros en existencia");
@@ -288,6 +296,7 @@ public class Biblioteca {
             return;
         }
         for(Libro libro : lista){
+            System.out.println("Libros prestado");
             System.out.println(libro);
         }
         stdin.nextLine();
@@ -297,13 +306,13 @@ public class Biblioteca {
 
         System.out.println("--------------------Prestador de libros--------------------\n\n\n");
 
-        if(librosDisponibles().isEmpty()){
+        if(librosPorDisponibilidad("1").isEmpty()){
             System.out.println("No hay libros agregados actualmente");
             stdin.nextLine();
             return;
         }
 
-        mostrarLibrosDisponibles();
+        mostrarLibrosPorDisponibilidad("1");
 
         String isbn = solicitarDatos(new BuzonMensajes.MensajeISBN(), new ValidarDatos.ValidarISBN());
         String id = solicitarDatos(new BuzonMensajes.MensajeId(), new ValidarDatos.ValidarDatoVacio());
@@ -353,11 +362,7 @@ public class Biblioteca {
             System.out.println(usuario);
         }
         stdin.nextLine();
-    }
-
-    public ArrayList<Usuario> obtenerListaDatos(ArrayList<Usuario> lista){
-        return lista;
-    }
+    } 
 
     public void devolverLibro(){
 
@@ -392,5 +397,41 @@ public class Biblioteca {
         } 
         gestionBiblioteca.modificarEstadoLibro(libro, true);
         gestionUsuario.devolverLibro(usuario, libro);
+    }
+
+    public <T> boolean validarListaVacia(ArrayList<T> lista, byte tipo){
+        
+        final byte TIPO = 1; //tipo=1 es para la lista Usuario y 0 para la lista libro
+        
+        if(lista.isEmpty() && tipo == TIPO){
+            stdin.nextLine();
+            return true;
+        }
+        return false;
+    }
+
+    public void reservarLibro(){
+
+        mostrarLibrosPorDisponibilidad("0");
+        
+        System.out.println("------------------------Menu para reservar Libros----------------------");
+
+        String id = solicitarDatos(new BuzonMensajes.MensajeId(), new ValidarDatos.ValidarDatoVacio()); 
+        ArrayList<Usuario> listaUsuario = gestionUsuario.buscarUsuario(new BuscarPorCriterio.BuscarPorId(), id);
+
+        if(gestionUsuario.validarListaVacia(listaUsuario)){
+            System.out.println("El usuario ingresado no existe");
+        }
+        
+        String isbn = solicitarDatos(new BuzonMensajes.MensajeISBN(), new ValidarDatos.ValidarISBN());
+        ArrayList<Libro> listaLibro = gestionBiblioteca.buscarLibro(new BuscarPorCriterio.BuscarPorISBN(), isbn);
+
+        System.out.println("aqui estoy yo");
+
+    }
+
+    public void listarHistorialPrestamos(){
+        gestionUsuario.listarUsuariosConLibrosPrestados();
+        stdin.nextLine();
     }
 }

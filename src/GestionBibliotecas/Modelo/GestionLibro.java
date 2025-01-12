@@ -6,7 +6,6 @@ import java.util.ArrayList;
 public class GestionLibro {
 
     private ArrayList<Libro> listaLibros; 
-    private Libro libro;
 
     public GestionLibro(){
         this.listaLibros = new ArrayList<>();

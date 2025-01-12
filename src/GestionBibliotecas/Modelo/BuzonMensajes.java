@@ -46,7 +46,7 @@ public class BuzonMensajes {
 
         @Override
         public void mensajeEntrada(){
-            System.out.print("Ingresa 1 - disponible, 0 - no disponible: ");
+            System.out.print("Ingresa 1 para los disponibles / 0 para los no disponible: ");
         }
     }
 

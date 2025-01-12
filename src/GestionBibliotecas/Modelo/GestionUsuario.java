@@ -53,4 +53,18 @@ public class GestionUsuario{
     public ArrayList<Usuario> listarTodosUsuarios(){
         return listaUsuarios;
     }
+    
+    public boolean validarListaVacia(ArrayList<Usuario> lista){
+        return lista.isEmpty();
+    }
+
+    public void listarUsuariosConLibrosPrestados(){
+
+        for(Usuario usuario : listaUsuarios){
+            System.out.println("libros prestados por el usuario " + usuario.getNombre());
+            for(Libro libro : usuario.getListaLibros()){
+                System.out.println(libro.toString());
+            }
+        }
+    }
 }
