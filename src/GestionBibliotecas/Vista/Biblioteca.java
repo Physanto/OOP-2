@@ -40,10 +40,12 @@ public class Biblioteca {
                            "7._ Agregar un nuevo libro \n" +
                            "8._ Ver todos los libros agregados \n" +
                            "9._ Crear un Usuario\n" + 
-                           "10._ Ver todos los usuarios creados\n" + 
-                           "11._ Salir \n" +
+                           "10._ Eliminar Usuario\n" + 
+                           "11._ Eliminar Libro\n" + 
+                           "12._ Ver todos los usuarios creados\n" + 
+                           "13._ Salir \n" +
                            "*********************************************** \n\n");
-        System.out.print("Por favor ingresar una opcion, (1-11): ");
+        System.out.print("Por favor ingresar una opcion, (1-13): ");
     }
     /***
      * Esta funcion muestra el menu principal del Sistema de Gestion de GestionBiblioteca
@@ -80,7 +82,6 @@ public class Biblioteca {
                     break;
 
                 case 5:
-                    reservarLibro();
                     break;
 
                 case 6:
@@ -99,10 +100,18 @@ public class Biblioteca {
                     break;
 
                 case 10:
-                    listarTodosUsuarios();
+                    eliminarUsuario();
                     break;
                 
                 case 11:
+                    eliminarLibro();
+                    break;
+                
+                case 12:
+                    listarTodosUsuarios();
+                    break;
+                
+                case 13:
                     break;
 
                 default:
@@ -110,7 +119,7 @@ public class Biblioteca {
                     break;
             }
         }
-        while (opcion != 11);
+        while (opcion != 13);
         stdin.close();
     }
 
@@ -198,7 +207,7 @@ public class Biblioteca {
 
     public boolean verificarInformacion(String isbn, String titulo, String autor){
 
-        ArrayList<Libro> listaLibros = gestionBiblioteca.getListaLibros();
+        ArrayList<Libro> listaLibros = gestionBiblioteca.listarTodosLibros();
 
         Validador validadorDatos = new ValidarDatos.ValidarISBN();
 
@@ -288,7 +297,7 @@ public class Biblioteca {
 
     public void listarTodosLosLibros(){
 
-        ArrayList<Libro> lista = gestionBiblioteca.getListaLibros();
+        ArrayList<Libro> lista = gestionBiblioteca.listarTodosLibros();
 
         if(lista.isEmpty()){
             System.out.println("No hay libros anadidos");
@@ -303,10 +312,9 @@ public class Biblioteca {
     }
 
     public void prestarLibro(){
+System.out.println("--------------------Prestador de libros--------------------\n\n\n");
 
-        System.out.println("--------------------Prestador de libros--------------------\n\n\n");
-
-        if(librosPorDisponibilidad("1").isEmpty()){
+        if(gestionBiblioteca.validarListaVacia(librosPorDisponibilidad("1"))){
             System.out.println("No hay libros agregados actualmente");
             stdin.nextLine();
             return;
@@ -319,7 +327,7 @@ public class Biblioteca {
         ArrayList<Libro> listaLibro = gestionBiblioteca.buscarLibro(new BuscarPorCriterio.BuscarPorISBN(), isbn);
         ArrayList<Usuario> listaUsuario = gestionUsuario.buscarUsuario(new BuscarPorCriterio.BuscarPorId(), id);
 
-        if(listaLibro.isEmpty() || listaUsuario.isEmpty()){
+        if(gestionBiblioteca.validarListaVacia(listaLibro) || gestionUsuario.validarListaVacia(listaUsuario)){
             System.out.println("El libro o usuario ingresado no se encuentra en la base de datos");
             stdin.nextLine();
             return;
@@ -371,7 +379,7 @@ public class Biblioteca {
         String id = solicitarDatos(new BuzonMensajes.MensajeId(), new ValidarDatos.ValidarDatoVacio()); 
         ArrayList<Usuario> listaUsuario = gestionUsuario.buscarUsuario(new BuscarPorCriterio.BuscarPorId(), id);
 
-        if(listaUsuario.isEmpty()){
+        if(gestionUsuario.validarListaVacia(listaUsuario)){
             System.out.println("No existe el usuario ingresado");
             stdin.nextLine();
             return;
@@ -390,7 +398,7 @@ public class Biblioteca {
         ArrayList<Libro> listaLibro = gestionBiblioteca.buscarLibro(new BuscarPorCriterio.BuscarPorISBN(), isbn);
         Libro libro = listaLibro.getFirst();
 
-        if(listaLibro.isEmpty()){
+        if(gestionBiblioteca.validarListaVacia(listaLibro)){
             System.out.println("No existe este libro en la lista");
             stdin.nextLine();
             return;
@@ -399,39 +407,76 @@ public class Biblioteca {
         gestionUsuario.devolverLibro(usuario, libro);
     }
 
-    public <T> boolean validarListaVacia(ArrayList<T> lista, byte tipo){
-        
-        final byte TIPO = 1; //tipo=1 es para la lista Usuario y 0 para la lista libro
-        
-        if(lista.isEmpty() && tipo == TIPO){
-            stdin.nextLine();
-            return true;
-        }
-        return false;
-    }
-
-    public void reservarLibro(){
-
-        mostrarLibrosPorDisponibilidad("0");
-        
-        System.out.println("------------------------Menu para reservar Libros----------------------");
-
-        String id = solicitarDatos(new BuzonMensajes.MensajeId(), new ValidarDatos.ValidarDatoVacio()); 
-        ArrayList<Usuario> listaUsuario = gestionUsuario.buscarUsuario(new BuscarPorCriterio.BuscarPorId(), id);
-
-        if(gestionUsuario.validarListaVacia(listaUsuario)){
-            System.out.println("El usuario ingresado no existe");
-        }
-        
-        String isbn = solicitarDatos(new BuzonMensajes.MensajeISBN(), new ValidarDatos.ValidarISBN());
-        ArrayList<Libro> listaLibro = gestionBiblioteca.buscarLibro(new BuscarPorCriterio.BuscarPorISBN(), isbn);
-
-        System.out.println("aqui estoy yo");
-
+    public <T> boolean validarListaVacia(ArrayList<T> lista){
+        return lista.isEmpty();
     }
 
     public void listarHistorialPrestamos(){
         gestionUsuario.listarUsuariosConLibrosPrestados();
         stdin.nextLine();
     }
+
+    public void eliminarUsuario(){
+
+        System.out.println("--------------------------Eliminacion de usuarios----------------------");
+
+        if(gestionUsuario.validarListaVacia(gestionUsuario.listarTodosUsuarios())){
+            System.out.println("No hay usuarios registrados para eliminar");
+            stdin.nextLine();
+            return;
+        }
+        imprimirUsuarios(gestionUsuario.listarTodosUsuarios());
+
+        String id = solicitarDatos(new BuzonMensajes.MensajeId(), new ValidarDatos.ValidarDatoVacio());
+        Buscador<Usuario, String> buscador = new BuscarPorCriterio.BuscarPorId();
+        ArrayList<Usuario> listaUsuario = gestionUsuario.buscarUsuario(buscador, id);
+
+        if(gestionUsuario.validarListaVacia(listaUsuario)){
+            buscador.mostrarMensajeError();
+            stdin.nextLine();
+            return;
+        }
+        gestionUsuario.eliminarUsuario(listaUsuario.getFirst());
+        System.out.println("Usuario eliminado correctamente");
+        stdin.nextLine();
+    }
+
+    public void eliminarLibro(){
+
+        System.out.println("--------------------------Eliminacion de Libros----------------------\n");
+
+        if(gestionBiblioteca.validarListaVacia(gestionBiblioteca.listarTodosLibros())){
+            System.out.println("no hay libros agregados para eliminar");
+            stdin.nextLine();
+            return;
+        }
+        imprimirLibros(gestionBiblioteca.listarTodosLibros());
+
+        String isbn = solicitarDatos(new BuzonMensajes.MensajeISBN(), new ValidarDatos.ValidarISBN());
+        Buscador<Libro, String> buscador = new BuscarPorCriterio.BuscarPorISBN();
+        ArrayList<Libro> listaLibro = gestionBiblioteca.buscarLibro(buscador, isbn);
+
+        if(gestionBiblioteca.validarListaVacia(listaLibro)){
+            buscador.mostrarMensajeError();
+            stdin.nextLine();
+            return;
+        }
+        gestionBiblioteca.eliminarLibro(listaLibro.getFirst());
+        System.out.println("Libro eliminado correctamente");
+        stdin.nextLine();
+
+    }
+
+    public void imprimirUsuarios(ArrayList<Usuario> listaUsuarios){
+        for(Usuario usuario : listaUsuarios){
+            System.out.println(usuario);
+        }
+    }
+    
+    public void imprimirLibros(ArrayList<Libro> listaLibros){
+        for(Libro libro : listaLibros){
+            System.out.println(libro);
+        }
+    }
+    
 }
