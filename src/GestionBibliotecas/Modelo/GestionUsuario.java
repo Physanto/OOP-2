@@ -22,10 +22,10 @@ public class GestionUsuario{
     }
 
     public void devolverLibro(Usuario usuario, Libro libro){
-        eliminarLibro(usuario, libro);
+        eliminarLibroListaUsuario(usuario, libro);
     }  
 
-    public void eliminarLibro(Usuario usuario, Libro libro){
+    public void eliminarLibroListaUsuario(Usuario usuario, Libro libro){
         ArrayList<Libro> lista = usuario.getListaLibros();
         lista.remove(libro);
     }
@@ -61,10 +61,14 @@ public class GestionUsuario{
     public void listarUsuariosConLibrosPrestados(){
 
         for(Usuario usuario : listaUsuarios){
-            System.out.println("libros prestados por el usuario " + usuario.getNombre());
+            System.out.println("libros prestados por el usuario " + usuario.getNombre() + "\n");
             for(Libro libro : usuario.getListaLibros()){
                 System.out.println(libro.toString());
             }
         }
     }
+
+    public void eliminarUsuario(Usuario usuario){
+        listaUsuarios.remove(usuario);
+    } 
 }

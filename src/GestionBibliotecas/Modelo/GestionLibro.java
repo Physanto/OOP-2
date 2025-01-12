@@ -11,7 +11,7 @@ public class GestionLibro {
         this.listaLibros = new ArrayList<>();
     }
 
-    public ArrayList<Libro> getListaLibros(){
+    public ArrayList<Libro> listarTodosLibros(){
         return listaLibros;
     }
 
@@ -32,5 +32,13 @@ public class GestionLibro {
                                                 //creo una lista de libros lo que verdaderamente estoy haciendo es tener una copia de este.
         libro.setDisponible(estado); 
     } 
+
+    public boolean validarListaVacia(ArrayList<Libro> lista){
+        return lista.isEmpty();
+    }
+
+    public void eliminarLibro(Libro libro){
+        listaLibros.remove(libro);
+    }
 }
 

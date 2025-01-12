@@ -10,8 +10,8 @@ public class GestionBiblioteca {
         this.gestionLibro = new GestionLibro();
     }
 
-    public ArrayList<Libro> getListaLibros(){
-        return gestionLibro.getListaLibros();
+    public ArrayList<Libro> listarTodosLibros(){
+        return gestionLibro.listarTodosLibros();
     }
 
     public void almacenarLibro(Libro libro){
@@ -30,4 +30,11 @@ public class GestionBiblioteca {
         gestionLibro.modificarEstadoLibro(libro, estado);
     }
 
+    public boolean validarListaVacia(ArrayList<Libro> lista){
+        return lista.isEmpty();
+    }
+
+    public void eliminarLibro(Libro libro){
+        gestionLibro.eliminarLibro(libro);
+    }
 }
