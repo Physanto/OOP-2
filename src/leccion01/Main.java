@@ -1,5 +1,6 @@
 package leccion01;
 
+<<<<<<< HEAD
 import java.util.ArrayList;
 
 public class Main {
@@ -22,3 +23,14 @@ public class Main {
         } 
     }
 } 
+=======
+public class Main {
+    public static void main(String[] args){
+
+        Coche coche = new Coche("Chevrolet", "spark gt", (short) 2010);
+        
+        coche.setMarca("nissan");
+        coche.mostrarDetalle();
+    }
+}
+>>>>>>> 590c31e (...)
