@@ -22,4 +22,8 @@ public class Telefono extends Dispositivo {
     public boolean apagarDispositivo(){
         return true;
     }
+
+    public void agregarDispositivo(Telefono telefono){
+        listaTelefonos.add(telefono);
+    }
 }

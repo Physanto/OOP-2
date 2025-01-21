@@ -4,29 +4,13 @@ import GestionDispositivos.Utilidades.Validar;
 import GestionDispositivos.Utilidades.Mensajes;
 import java.util.Scanner;
 
-public class ValidarEntrada{
-
-
-    public String solicitarDatos(Scanner stdin, Mensajes mensaje, Validar validarDatos){
-
-        String entradaDatos;
-        do{
-            mensaje.mostrarMensajePersonalizado();
-            entradaDatos = stdin.nextLine();
-
-            if(validarDatos.validarEntrada(entradaDatos)){
-                return entradaDatos;
-            }
-
-        }
-        while(true);
-    }
+public class ValidarEntrada{ 
 
     public static class ValidarDatoVacio implements Validar {
 
         @Override
-        public boolean validarEntrada(String entrada){
-            return !entrada.isEmpty();
+        public <T> boolean validarEntrada(T entrada){
+            return !entrada.equals("");
         }
 
         @Override
